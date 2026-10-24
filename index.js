@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const env = require('dotenv');
 const mongoose = require('mongoose');
-
+const Movie = require('./models/movie.model')
 
 env.config();
 
@@ -38,9 +38,24 @@ app.listen (process.env.PORT ,async()=>{
     // this callback is executed once the succesfully start the severe on the given port 
     console.log(`server started on port ${process.env.PORT}`)
     try{
+        
     await mongoose.connect(process.env.DB_URL)
     // connects to the mongo server
     console.log("successsfully connected to mongo")
+
+
+    // await Movie.create({
+    //     name:"BACHAN PANDEY",
+    //     description:"comedy masal movie",
+    //     casts:["salman", "abhishek" , "eshant"],
+    //     director:"farah shamji",
+    //     trailerUrl:"ebsrafkabrkfw",
+    //     language:"hindi",
+    //     releaseDate:"18:242:234",
+    //     releaseStatus:"RELEASED"
+
+    // });
+
     }
     catch(err){
         console.log("not abel to connect mongo")
