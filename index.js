@@ -21,6 +21,8 @@ const app = express();
 
 // one basic route 
 
+// configration body parser
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
@@ -38,7 +40,7 @@ app.get('/home' , (req , res) =>{
         message : "this is fetched home"
     })
 
-    
+
 })
 
 
@@ -49,7 +51,7 @@ app.listen (process.env.PORT ,async()=>{
         
     await mongoose.connect(process.env.DB_URL)
     // connects to the mongo server
-    console.log("successsfully connected to mongo")
+    console.log("successsfully connected to mongomm")
 
 
     // await Movie.create({
