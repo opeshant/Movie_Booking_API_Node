@@ -10,16 +10,21 @@ const {successResponseBody , errorresponseBody} = require('../utils/responsebody
 const createMovie = async (req , res) =>{
 
       try { 
-        const movie = await movieServices.createMovie(req.body);
-
-        successResponseBody.data = movie;
+        const response = await movieServices.createMovie(req.body);
+        if(response.err){
+            errorresponseBody.err = response.err;
+           
+            errorresponseBody.message = "validation failed on few parameters on req body"
+            return res.status(response.code).json(errorresponseBody);
+        }
+        successResponseBody.data = response;
         successResponseBody.message = "successfully created the moovie";
         return res.status(201).json(successResponseBody)
 
       }
       catch (err){
 
-        console.log(err);
+        console.log(err.name);
         return res.status(500).json();
 
       }
@@ -28,7 +33,7 @@ const createMovie = async (req , res) =>{
 const deleteMovie = async (req , res) =>{
     try{
         const response = await movieServices.deleteMovie(req.params.id);
-        
+
         successResponseBody.data = response;
         successResponseBody.message = "successfully deleted the movie";
         return res.status(200).json(successResponseBody);
@@ -60,9 +65,29 @@ const getMovie = async (req , res) =>{
     }
 }
 
+const updateMovie = async(req , res) => {
+    try{
+        const response = await movieServices.updateMovie(req.params.id , req.body);
+        if(response.err){
+            errorresponseBody.err = response.err;
+            errorresponseBody.message = "the updates that we are trying to apply does not validate the schema"
+            return res.status(response.code).json(errorresponseBody);
+        }
+        successResponseBody.data = response;
+        return res.status(200).json(successResponseBody);
+        
+    }
+    catch(err){
+        console.log(err);
+        errorresponseBody.err = err;
+        return res.status(500).json(errorresponseBody);
+    }
+}
+
 
 module.exports = {
     createMovie,
     deleteMovie,
     getMovie,
+    updateMovie,
 }
