@@ -1,8 +1,20 @@
- const { get } = require('mongoose');
+const { get } = require('mongoose');
 const Movie = require('../models/movie.model');
 
+
+
+const createMovie = async(data) => {
+    const movie = await Movie.create(data);
+    return movie;
+}
+
+const deleteMovie = async(id) =>{
+    const reponse = await Movie.findByIdAndDelete(id)
+    return reponse;
+}
+
  const getMovieById = async(id) =>{
-    const movie = Movie.findById(id);
+    const movie = await Movie.findById(id);
     console.log(movie);
     if(!movie){
         return {
@@ -14,5 +26,7 @@ const Movie = require('../models/movie.model');
  }
 
  module.exports={
-    getMovieById
+    getMovieById,
+    createMovie,
+    deleteMovie
  }
