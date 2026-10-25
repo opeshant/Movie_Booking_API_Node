@@ -34,6 +34,11 @@ const routes = (app) =>{
         movieController.updateMovie
     )
 
+    app.get(
+        '/mba/api/v1/movies',
+        movieController.getMovies
+    )
+
 
 }
 
