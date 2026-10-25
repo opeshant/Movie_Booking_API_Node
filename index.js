@@ -2,7 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const env = require('dotenv');
 const mongoose = require('mongoose');
-const Movie = require('./models/movie.model')
+
+
+const MovieRoutes = require('./routes/movies.routes');
+
 
 env.config();
 
@@ -16,11 +19,14 @@ const app = express();
 // ip adreess is whole computer (genrally)
 
 
-
 // one basic route 
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+
+
+MovieRoutes(app);
+
 
 app.get('/home' , (req , res) =>{
 
@@ -31,6 +37,8 @@ app.get('/home' , (req , res) =>{
         number : 108, 
         message : "this is fetched home"
     })
+
+    
 })
 
 
