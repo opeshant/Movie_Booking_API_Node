@@ -1,3 +1,4 @@
+// this object to be used as template for building erros reponses
 
 const errorresponseBody = {
     err :{},
@@ -7,6 +8,7 @@ const errorresponseBody = {
     code : 404
 }
 
+// this object to be used as a template for building success response body 
 const successResponseBody={
      err :{},
     data :{},

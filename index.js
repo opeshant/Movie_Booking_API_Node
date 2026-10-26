@@ -4,15 +4,13 @@ const env = require('dotenv');
 const mongoose = require('mongoose');
 
 
+
 const MovieRoutes = require('./routes/movies.routes');
 const TheatreRoutes = require('./routes/theatre.route');
 
 
 
-
-
 env.config();
-
 const app = express();
 // express app object 
 
@@ -32,22 +30,29 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 
+
+
 MovieRoutes(app); // invoking movie routes
 TheatreRoutes(app); // invoking theatre routes
 
 
-app.get('/home' , (req , res) =>{
 
-    // console.log("hetting /home");
+//*************************************************/
+// app.get('/home' , (req , res) =>{
 
-    return res.json({
-        success : true,
-        number : 108, 
-        message : "this is fetched home"
-    })
+//     // console.log("hetting /home");
+
+//     return res.json({
+//         success : true,
+//         number : 108, 
+//         message : "this is fetched home"
+//     })
 
 
-})
+// })
+
+//*************************************************/
+
 
 
 app.listen (process.env.PORT ,async()=>{
@@ -58,20 +63,6 @@ app.listen (process.env.PORT ,async()=>{
     await mongoose.connect(process.env.DB_URL)
     // connects to the mongo server
     console.log("successsfully connected to mongomm")
-
-
-    // await Movie.create({
-    //     name:"BACHAN PANDEY",
-    //     description:"comedy masal movie",
-    //     casts:["salman", "abhishek" , "eshant"],
-    //     director:"farah shamji",
-    //     trailerUrl:"ebsrafkabrkfw",
-    //     language:"hindi",
-    //     releaseDate:"18:242:234",
-    //     releaseStatus:"RELEASED"
-
-    // });
-
     }
     catch(err){
         console.log("not abel to connect mongo")

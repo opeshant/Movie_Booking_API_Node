@@ -77,9 +77,30 @@ const getTheatres = async(req , res)=>{
     }
 }
 
+const update = async(req , res)=>{
+    try{
+        const response = await theatreServices.updateTheatre(req.params.id , req.body);
+        if(!response){
+            return {
+                err : "no theatre found for the corresponding id",
+                code : 404
+            }
+        }
+        successResponseBody.data = response;
+        successResponseBody.message = "successfully updates the theatre";
+        return res.status(200).json(successResponseBody);
+    }
+    catch(error){
+        console.log(error);
+        errorresponseBody.err = error;
+        return res.status(500).json(errorresponseBody);
+    }
+}
+
 module.exports={
         create,
         destroy,
         getTheatre,
-        getTheatres
+        getTheatres,
+        update
     }
