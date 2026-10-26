@@ -86,6 +86,12 @@ const getAllTheatres = async () =>{
 }
 
 
+
+
+/// params id -> id used for identify the movie to be updated
+// params data -> data object to be used to update the theatre 
+// returns -> it returns the new updated theatre object 
+
 const updateTheatre = async(id , data)=>{
     try{
         const response = await Theatre.findByIdAndUpdate(id , data , {new : true , runValidators : true});
