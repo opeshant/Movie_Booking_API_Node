@@ -1,9 +1,10 @@
 const theatreController = require('../controller/theatre.controller');
-const theatre = require('../models/theatre.model');
+const theatreMiddlewares = require('../middlewares/theatre.middleware');
 
 const routes = (app) => {
     app.post(
         '/mba/api/v1/theatres',
+        theatreMiddlewares.validateTheatreCreateRequest,
         theatreController.create
     );
 }
