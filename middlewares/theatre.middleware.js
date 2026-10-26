@@ -27,6 +27,8 @@ const validateTheatreCreateRequest = async(req , res , next) => {
     next();    
 }
 
+
+
 module.exports ={
     validateTheatreCreateRequest
 }
