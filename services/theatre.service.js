@@ -80,6 +80,8 @@ const getAllTheatres = async (data) =>{
        
 
         let query={};
+        let pagination={};
+
         if(data && data.city){
             // this check whether city is present in query params or not 
             query.city = data.city;
@@ -92,8 +94,16 @@ const getAllTheatres = async (data) =>{
             // this checks whether name is present in query params or not 
             query.name = data.name;
         }
+        if(data && data.limit){
+            pagination.limit = Number(data.limit);
+        }
+        if(data && data.skip){
+            // for first page we send skip as 0 
+            let perpPage = (data.limit) ? data.limit: 5;
+            pagination.skip = data.skip*perpPage;
+        }
 
-        const response = await Theatre.find(query);
+        const response = await Theatre.find(query , {} , pagination);
         return response;
 
     }
