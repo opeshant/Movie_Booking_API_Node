@@ -1,3 +1,4 @@
+const theatre = require('../models/theatre.model');
 const Theatre = require('../models/theatre.model');
 
 
@@ -116,10 +117,47 @@ const updateTheatre = async(id , data)=>{
 }
 
 
-module.exports= {
+
+
+
+
+const updateMoviesInTheatres = async(theatreId , movieIds , insert) => {
+
+    const theatre = await Theatre.findById(theatreId);
+    if(!theatre){
+        return {
+            err : "no such theatre found for the id provided",
+            code : 404
+        }
+    }
+    if(insert){
+        // we need to add movis 
+        movieIds.forEach(movieId =>{
+            theatre.movies.push(movieId);
+        });
+    }
+    else {
+        // otherwise we need to remove movies
+        let savedMovieIds = theatre.movies;
+
+        movieIds.forEach(movieId => {
+            savedMovieIds = savedMovieIds.filter(smi => smi.toString() != movieId);
+        });
+        theatre.movies = savedMovieIds;
+    }
+    await theatre.save();
+
+    return theatre.populate('movies');
+    // kind of joints the collection
+
+}
+
+
+module.exports = {
     createTheatre,
     deleteTheatre,
     getTheatre,
     getAllTheatres,
-    updateTheatre
+    updateTheatre,
+    updateMoviesInTheatres
 }

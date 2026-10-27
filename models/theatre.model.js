@@ -23,6 +23,9 @@ const theatreSchema = new mongoose.Schema({
     address: String,
     movies :{
         type:[mongoose.Schema.Types.ObjectId],
+        // if wanted to add just one movie
+        // mongoose.Schema.Types.ObjectsId without the sqaure brackets and it will work properly
+        
         ref : 'Movie'
     }
 }, {timestamps : true});

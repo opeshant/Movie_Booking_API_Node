@@ -40,6 +40,13 @@ const routes = (app) => {
     app.put(
         '/mba/api/v1/theatres',
         theatreController.update
+    );
+
+    //UPDATE
+    app.patch(
+        '/mba/api/v1/theatres/:id/movies',
+        theatreMiddlewares.validateUpdateMoviesRequest,
+        theatreController.updateMovies
     )
 
 }
