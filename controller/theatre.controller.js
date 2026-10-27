@@ -65,7 +65,8 @@ const getTheatre = async (req , res) =>{
 
 const getTheatres = async(req , res)=>{
     try{
-        const response = await theatreServices.getAllTheatres();
+        
+        const response = await theatreServices.getAllTheatres(req.query);
         successResponseBody.data = response;
         successResponseBody.message = "successfully fecth all the theaters";
         return res.status(200).json(successResponseBody);

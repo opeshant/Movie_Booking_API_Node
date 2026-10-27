@@ -75,16 +75,42 @@ const getTheatre = async (id)=>{
 // params data -> data to be used to filter out theatres based on city / pincode
 // returns -> object with the filters contents of the theatres
 
-const getAllTheatres = async () =>{
+const getAllTheatres = async (data) =>{
     try{
-        const response = await Theatre.find({});
+       
+
+        let query={};
+        if(data && data.city){
+            // this check whether city is present in query params or not 
+            query.city = data.city;
+        }
+        if(data && data.pincode){
+            // this is going to seprately check whether 
+            query.pincode = Number(data.pincode);
+        }
+        if(data && data.name){
+            // this checks whether name is present in query params or not 
+            query.name = data.name;
+        }
+
+        const response = await Theatre.find(query);
         return response;
+
     }
     catch(error){
         console.log(error);
         throw error;
     }
 }
+
+// mongooose has a find function which expects js object as a input paramter
+// if object is empty then find function return all the data
+//otherwise based on the key value pairs prsent in the object mongoose does filteration on the database 
+// the key is attribute name of the document of the collections
+// and in the value of the pair we put some custome value to it 
+
+
+
 
 
 

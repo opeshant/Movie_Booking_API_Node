@@ -49,6 +49,7 @@ const routes = (app) => {
         theatreController.updateMovies
     )
 
+    
 }
 
 
