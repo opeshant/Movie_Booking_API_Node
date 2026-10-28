@@ -1,6 +1,8 @@
 const userService = require('../services/user.service');
 const {successResponseBody , errorresponseBody , errorResponseBody} = require('../utils/responsebody');
 
+
+
 const singUp = async (req , res ) => {
     try{
         const response = await userService.creatUser(req.body);
@@ -9,12 +11,19 @@ const singUp = async (req , res ) => {
         return res.status(201).json(successResponseBody);
     }
     catch(error){
-       console.log("SIGNUP ERROR:", error);
-       errorresponseBody.err = error;
+        
+       if(error.err){
+        errorresponseBody.err = error.err;
+        errorresponseBody.code = error.code;
+        return res.status(error.code).json(errorresponseBody);
+       }
+       errorresponseBody.err = error.message;
        errorresponseBody.code = 500;
        return res.status(500).json(errorresponseBody);
 }
 }
+
+
 module.exports = {
     singUp
 }

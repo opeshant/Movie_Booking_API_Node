@@ -34,6 +34,8 @@ const userSchema = new mongoose.Schema({
 } , {timestamps : true});
 
 
+//hooks or triggers
+
 userSchema.pre('save', async function() {
 
     if (!this.isModified('password')) {
