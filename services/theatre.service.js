@@ -1,6 +1,6 @@
 const theatre = require('../models/theatre.model');
 const Theatre = require('../models/theatre.model');
-
+const Movie = require('../models/movie.model');
 
 // params data -> object containing deatils of the theatre to be vreated 
 // returns -> object with the new theatre details 
@@ -23,6 +23,7 @@ const createTheatre = async(data) => {
         throw error;
     }
 }
+
 
 
 // params id -> unique id using which we can identufy the theatre to be deleted
@@ -94,16 +95,22 @@ const getAllTheatres = async (data) =>{
             // this checks whether name is present in query params or not 
             query.name = data.name;
         }
+        if(data && data.movieId){
+            // let movie = await Movie.findById(data.movieId);
+
+            query.movies = {$all : data.movieId }
+        }
         if(data && data.limit){
             pagination.limit = Number(data.limit);
         }
+        
         if(data && data.skip){
             // for first page we send skip as 0 
             let perpPage = (data.limit) ? data.limit: 5;
             pagination.skip = data.skip*perpPage;
         }
 
-        const response = await Theatre.find(query , {} , pagination);
+        const response = await Theatre.find(query , {} , pagination); 
         return response;
 
     }
@@ -160,23 +167,29 @@ const updateTheatre = async(id , data)=>{
 const updateMoviesInTheatres = async(theatreId , movieIds , insert) => {
     try{
 
+        let theatre;
         if(insert){
         // we need to add movies 
-         await Theatre.updateOne(
+         theatre = await Theatre.findByIdAndUpdate(
             {_id : theatreId},
-            {$addToSet : {movies : {$each : movieIds}}}
+            {$addToSet : {movies : {$each : movieIds}}},
+            {new : true}
          );
+
     }
 
     else {
+
         // we need to remove movies
         await Theatre.updateOne(
             {_id : theatre},
-            {$pull : {movies :{$in : movieIds}}}
+            {$pull : {movies :{$in : movieIds}}},
+            {new : true}
         )
     }
-    const theatre = await Theatre.findById(theatreId);
+    // const theatre = await Theatre.findById(theatreId);
     return theatre.populate('movies');
+
     }
 
     catch(error){
