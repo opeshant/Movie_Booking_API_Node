@@ -1,6 +1,6 @@
 const { response } = require('express');
 const theatreServices = require('../services/theatre.service');
-const {successResponseBody , errorresponseBody} = require('../utils/responsebody');
+const {successResponseBody , errorresponseBody , errorResponseBody} = require('../utils/responsebody');
 
 
 const create = async (req , res) => {

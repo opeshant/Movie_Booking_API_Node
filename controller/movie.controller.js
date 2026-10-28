@@ -5,7 +5,7 @@ const Movie = require('../models/movie.model');
 // in req expects as object 
 const movieServices = require('../services/movie.service');
 
-const {successResponseBody , errorresponseBody} = require('../utils/responsebody');
+const {successResponseBody , errorresponseBody ,errorResponseBody} = require('../utils/responsebody');
 
 const createMovie = async (req , res) =>{
 
