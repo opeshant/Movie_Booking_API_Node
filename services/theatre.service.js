@@ -202,10 +202,30 @@ const updateMoviesInTheatres = async(theatreId , movieIds , insert) => {
         console.log(error);
         throw error;
     }
-
-   
-    // kind of joints the collection
 }
+
+const getMoviesInATheatre = async(id)=>{
+
+    try{
+        const theatre = await Theatre.findById(id , {name : 1 , movies : 1}).populate('movies');
+        // by this we will only get name and movies only and nothing more 
+        // populate -> gives whole object rathre than giving only name 
+        
+        if(!theatre){
+            return {
+                err : "no theatre with the given id given",
+                code : 404
+            }
+        }
+        return theatre;
+    }
+    catch(error){
+        console.log(error);
+        throw error;
+    }
+}
+
+
 
 
 module.exports = {
@@ -214,5 +234,6 @@ module.exports = {
     getTheatre,
     getAllTheatres,
     updateTheatre,
-    updateMoviesInTheatres
+    updateMoviesInTheatres,
+    getMoviesInATheatre
 }
