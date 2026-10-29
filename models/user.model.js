@@ -46,8 +46,8 @@ const userSchema = new mongoose.Schema({
 } , {timestamps : true});
 
 
-//hooks or triggers
 
+//hooks or triggers
 userSchema.pre('save', async function() {
 
     if (!this.isModified('password')) {
@@ -60,14 +60,12 @@ userSchema.pre('save', async function() {
 });
 
 
-
 // input password given by user in sign in request 
 // this is going to be instance method for user , to compare a password
 // return boolean denoting a password is same or not 
 
-userSchema.methods.isValidPassword = async(plainPassword) => {
-    const currentUser = this;
-    const compare = await bcrypt.compare(plainPassword , currentUser.password);
+userSchema.methods.isValidPassword = async function(plainPassword) {
+    const compare = await bcrypt.compare(plainPassword , this.password);
     return compare;
 }
 
