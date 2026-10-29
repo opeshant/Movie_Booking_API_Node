@@ -61,5 +61,17 @@ userSchema.pre('save', async function() {
 
 
 
+// input password given by user in sign in request 
+// this is going to be instance method for user , to compare a password
+// return boolean denoting a password is same or not 
+
+userSchema.methods.isValidPassword = async(plainPassword) => {
+    const currentUser = this;
+    const compare = await bcrypt.compare(plainPassword , currentUser.password);
+    return compare;
+}
+
+
+
 const User = mongoose.model('User' , userSchema);
 module.exports = User;
