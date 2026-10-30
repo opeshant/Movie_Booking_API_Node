@@ -68,8 +68,34 @@ const signin = async(req , res) =>{
     }
 }
 
+const resetPassword = async (req , res) =>{
+
+    try{
+        const user = await userService.getUserById(req.user);
+        const isOldPasswordCorrect = await user.isValidPassword(req.body.oldPassword);
+        if(!isOldPasswordCorrect){
+            throw {err : "invalid old password , please write the correct password" , code : 403}
+        }
+        user.password =  req.body.newPassword;
+        await user.save();
+
+        successResponseBody.data = user;
+        successResponseBody.message ="successfully updated the password for the given request";
+        return res.status(200).json(successResponseBody);
+    }
+    catch(error){
+        if(error.err){
+            errorresponseBody.err = error.err;
+            return res.status(error.code).json(errorresponseBody);
+        }
+        errorresponseBody.err = error;
+       return res.status(500).json(errorresponseBody);
+    }
+}
+
 
 module.exports = {
     singUp,
-    signin
+    signin,
+    resetPassword
 }
