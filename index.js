@@ -8,8 +8,7 @@ const mongoose = require('mongoose');
 const MovieRoutes = require('./routes/movies.routes');
 const TheatreRoutes = require('./routes/theatre.route');
 const authRoutes = require('./routes/auth.route');
-
-
+const userRoutes = require('./routes/user.routes');
 
 env.config();
 const app = express();
@@ -38,6 +37,7 @@ mongoose.set('debug' , true);
 MovieRoutes(app); // invoking movie routes
 TheatreRoutes(app); // invoking theatre routes
 authRoutes(app); // invoking auth routes 
+userRoutes(app); // invoking user routes
 
 
 
