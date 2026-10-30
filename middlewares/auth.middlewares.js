@@ -2,6 +2,7 @@
 const {errorresponseBody , successResponseBody} = require('../utils/responsebody');
 const userService = require('../services/user.service');
 const jwt = require('jsonwebtoken');
+const {USER_ROLE , USER_STATUS} = require('../utils/constants');
 
 // valition for singUp request
 // params req 0> https req object 
@@ -103,12 +104,69 @@ const validateResetPasswordRequest = (req , res , next) =>{
 
 }
 
+const isAdmin = async(req , res, next) =>{
+     
+    try{
+    const user = await userService.getUserById(req.user);
+    if(user.userRole != USER_ROLE.admin){
+        errorresponseBody.err = "user is not an admin , cannot proceed with the request";
+        return res.status(401).json(errorresponseBody);
+    }
+    next();
 
+}catch(error){
+   errorresponseBody.err = error.err;
+   errorresponseBody.message ="something went wrong";
+   return res.status(500 || error.code).json(errorresponseBody);
+}
+};
+
+
+
+const isClient = async(req , res , next)=>{
+    try{
+    const user = await userService.getUserById(req.user);
+    if(user.userRole != USER_ROLE.client){
+        errorresponseBody.err = "user is not a client cannot procees with the request";
+        return res.status(401).json(errorresponseBody);
+
+    }
+    next();
+
+}
+catch(error){
+   errorresponseBody.err = error.err;
+   errorresponseBody.message ="something went wrong";
+   return res.status(500 || error.code).json(errorresponseBody);
+}
+};
+
+
+
+const isAdminOrClient = async (req , res , next) =>{
+    try{
+    const user = await userService.getUserById(req.user);
+    if(user.userRole != USER_ROLE.admin && user.userRole != USER_ROLE.client){
+        errorresponseBody.err = "user is not a client nor a admin cannot proceed with the request";
+        return res.status(401).json(errorresponseBody);
+    }
+    next();
+}
+catch(error){
+
+   errorresponseBody.err = error.err;
+   errorresponseBody.message ="something went wrong";
+   return res.status(500 || error.code).json(errorresponseBody);
+}
+};
 
 
 module.exports ={
     validateSignUpRequest,
     validateSignInRequest,
     isAuthenticated,
-    validateResetPasswordRequest
+    validateResetPasswordRequest,
+    isAdmin,
+    isClient,
+    isAdminOrClient
 }

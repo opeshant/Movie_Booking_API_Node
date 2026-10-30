@@ -49,7 +49,7 @@ const getUserByEmail = async(email) =>{
         return response;
     }
     catch(error){
-        console.log(error);
+       
         throw error;
     }
 }
@@ -63,7 +63,6 @@ const getUserById = async(id) => {
         return user;
     }
     catch(error){
-        console.log(error);
         throw error;
     }
 }
@@ -77,7 +76,8 @@ const updateUserRoleOrStatus = async(data , userId) =>{
 
         let response = await User.findByIdAndUpdate(userId
             , updateQuery 
-            , {new : true , runValidators : true}
+            , {returnDocument : 'after', runValidators : true}
+            // this returnDocument after is same as new : true
         );
 
         if(!response) throw {err : "no user found for the given id" , code : 404};
