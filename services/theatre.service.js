@@ -161,49 +161,40 @@ const updateTheatre = async(id , data)=>{
 }
 
 
-
-
-
-
-const updateMoviesInTheatres = async(theatreId , movieIds , insert) => {
-    try{
-
+const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
+    try {
         let theatre;
-        if(insert){
-        // we need to add movies 
-         theatre = await Theatre.findByIdAndUpdate(
-            {_id : theatreId},
-            {$addToSet : {movies : {$each : movieIds}}},
-            {new : true}
-         );
-
-    }
-
-    else {
-
-        // we need to remove movies
-        await Theatre.updateOne(
-            {_id : theatre},
-            {$pull : {movies :{$in : movieIds}}},
-            {new : true}
-        )
-    }
-    // const theatre = await Theatre.findById(theatreId);
-    return theatre.populate('movies');
-
-    }
-
-    catch(error){
-        if(error.name == "TypeError"){
-            return {
-                code : STATUS.NOT_FOUND , 
-                err : "no theatre found for the given id"
-            }
+        if (insert) {
+            // we need to add movies
+            theatre = await Theatre.findByIdAndUpdate(
+                { _id: theatreId },
+                { $addToSet: { movies: { $each: movieIds } } },
+                { new: true }
+            );
+        } else {
+            // we need to remove movies
+            theatre = await Theatre.findByIdAndUpdate(
+                { _id: theatreId },
+                { $pull: { movies: { $in: movieIds } } },
+                { new: true }
+            );
         }
-        console.log(error);
+
+        return theatre.populate('movies');
+    } catch (error) {
+        if (error.name == 'TypeError') {
+            throw {
+                code: STATUS.NOT_FOUND,
+                err: "no theatre found for the given id"
+            };
+        }
         throw error;
     }
-}
+};
+
+
+
+
 
 const getMoviesInATheatre = async(id)=>{
 
@@ -213,7 +204,7 @@ const getMoviesInATheatre = async(id)=>{
         // populate -> gives whole object rathre than giving only name 
         
         if(!theatre){
-            return {
+            throw {
                 err : "no theatre with the given id given",
                 code : STATUS.NOT_FOUND
             }
@@ -221,7 +212,7 @@ const getMoviesInATheatre = async(id)=>{
         return theatre;
     }
     catch(error){
-        console.log(error);
+
         throw error;
     }
 }
@@ -232,7 +223,7 @@ const checkMovieInTheatre = async(theatreId , movieId) => {
         let response = await Theatre.findById(theatreId);
 
         if(!response){
-            return {
+            throw {
                 err : "no such theatre found for the given id",
                 code : STATUS.NOT_FOUND
             }
@@ -242,7 +233,7 @@ const checkMovieInTheatre = async(theatreId , movieId) => {
 
     }
     catch(error){
-        console.log(error);
+       
         throw error;
     }
 
