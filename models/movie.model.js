@@ -3,14 +3,17 @@ const mongoose = require('mongoose');
 // define the schema of the movie resource 
 // to be stored in the db 
 
+
 const movieSchema = new mongoose.Schema({
     name :{
         type:String ,
         required:true,
+        minLength : 2
     },
     description:{
         type:String , 
-        required : true
+        required : true,
+        minlength : 5
     },
     casts:{
         type : [String],
