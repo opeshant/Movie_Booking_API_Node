@@ -41,7 +41,7 @@ const destroy = async (req , res) =>{
 }
 
 const getTheatre = async (req , res) =>{
-    
+
     try{
         const response = await theatreServices.getTheatre(req.params.id);
         successResponseBody.data = response;
@@ -77,18 +77,15 @@ const getTheatres = async(req , res)=>{
 const update = async(req , res)=>{
     try{
         const response = await theatreServices.updateTheatre(req.params.id , req.body);
-        if(!response){
-            return {
-                err : "no theatre found for the corresponding id",
-                code : 404
-            }
-        }
         successResponseBody.data = response;
         successResponseBody.message = "successfully updates the theatre";
         return res.status(STATUS.CREATED).json(successResponseBody);
     }
     catch(error){
-        console.log(error);
+        if(error.err){
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
         errorResponseBody.err = error;
         return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }

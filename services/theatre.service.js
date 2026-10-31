@@ -141,7 +141,7 @@ const updateTheatre = async(id , data)=>{
     try{
         const response = await Theatre.findByIdAndUpdate(id , data , {new : true , runValidators : true});
         if(!response){
-            return {
+            throw {
                 err : "no theatre found for the corresponding id",
                 code : STATUS.NOT_FOUND
             }
