@@ -1,7 +1,7 @@
 const theatre = require('../models/theatre.model');
 const Theatre = require('../models/theatre.model');
 const Movie = require('../models/movie.model');
-const {STATUS_CODES : STATUS} = require('../utils/constants')
+const {STATUS_CODES : STATUS } = require('../utils/constants')
 
 
 // params data -> object containing deatils of the theatre to be vreated 
@@ -35,9 +35,9 @@ const deleteTheatre = async (id) => {
     try{
         const response = await Theatre.findByIdAndDelete(id);
        if(!response){
-        return {
+        throw {
             err :"No record of a theatre found for the given theatre",
-            code : 404
+            code : STATUS.NOT_FOUND
         }
        }
 
@@ -60,7 +60,7 @@ const getTheatre = async (id)=>{
         // no element or no record found for the given id
         return {
             err : "no theatre found for the given id ",
-            code : 404
+            code : STATUS.NOT_FOUND
         }
     }
     return response;
@@ -144,7 +144,7 @@ const updateTheatre = async(id , data)=>{
         if(!response){
             return {
                 err : "no theatre found for the corresponding id",
-                code : 404
+                code : STATUS.NOT_FOUND
             }
         }
         return response;
@@ -197,7 +197,7 @@ const updateMoviesInTheatres = async(theatreId , movieIds , insert) => {
     catch(error){
         if(error.name == "TypeError"){
             return {
-                code : 404 , 
+                code : STATUS.NOT_FOUND , 
                 err : "no theatre found for the given id"
             }
         }
@@ -216,7 +216,7 @@ const getMoviesInATheatre = async(id)=>{
         if(!theatre){
             return {
                 err : "no theatre with the given id given",
-                code : 404
+                code : STATUS.NOT_FOUND
             }
         }
         return theatre;
@@ -235,7 +235,7 @@ const checkMovieInTheatre = async(theatreId , movieId) => {
         if(!response){
             return {
                 err : "no such theatre found for the given id",
-                code : 404
+                code : STATUS.NOT_FOUND
             }
         }
         

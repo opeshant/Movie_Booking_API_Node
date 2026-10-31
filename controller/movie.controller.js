@@ -3,9 +3,13 @@ const Movie = require('../models/movie.model');
 // controller function to create a new movie it returns 
 // // movie created 
 // in req expects as object 
-const movieServices = require('../services/movie.service');
 
+const movieServices = require('../services/movie.service');
 const {successResponseBody , errorResponseBody} = require('../utils/responsebody');
+const {STATUS_CODES : STATUS} = require('../utils/constants');
+
+
+
 
 const createMovie = async (req , res) =>{
 
@@ -25,7 +29,7 @@ const createMovie = async (req , res) =>{
       catch (err){
 
         console.log(err.name);
-        return res.status(500).json();
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json();
 
       }
 };
@@ -45,9 +49,9 @@ const deleteMovie = async (req , res) =>{
     }
     catch(err){
         console.log(err);
-        return res.status(500).json(errorResponseBody)
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
     }
-}
+};
 
 const getMovie = async (req , res) =>{
     try{
@@ -66,9 +70,9 @@ const getMovie = async (req , res) =>{
     catch(err){
 
         console.log(err);
-        return res.status(500).json(errorResponseBody)
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
     }
-}
+};
 
 const updateMovie = async(req , res) => {
     try{
@@ -85,9 +89,9 @@ const updateMovie = async(req , res) => {
     catch(err){
         console.log(err);
         errorResponseBody.err = err;
-        return res.status(500).json(errorResponseBody);
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }
-}
+};
 
 const getMovies = async (req , res) =>{
     try{
@@ -102,9 +106,9 @@ const getMovies = async (req , res) =>{
     catch(error){
        console.log(error);
        errorResponseBody.err = error;
-       return res.status(500).json(errorResponseBody)
+       return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
     }
-}
+};
 
 
 module.exports = {
@@ -113,5 +117,5 @@ module.exports = {
     getMovie,
     updateMovie,
     getMovies
-}
+};
 
