@@ -117,7 +117,6 @@ const getAllTheatres = async (data) =>{
 
     }
     catch(error){
-        console.log(error);
         throw error;
     }
 }
