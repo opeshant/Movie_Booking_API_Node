@@ -51,20 +51,19 @@ const deleteMovie = async (req , res) =>{
 const getMovie = async (req , res) =>{
     try{
         const response = await movieServices.getMovieById(req.params.id);
-        
-        if(response.err){
-            errorResponseBody.err = response.err;
-            return res.status(response.code).json(errorResponseBody);
-        }
-
         successResponseBody.data = response;
-        return res.status(STATUS.CREATED).json(successResponseBody);
+        return res.status(STATUS.OK).json(successResponseBody);
 
     }
-    catch(err){
+    catch(error){
 
-        console.log(err);
-        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
+        if(error.err){
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
+        errorResponseBody.err = error;
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
+
     }
 };
 
@@ -77,7 +76,7 @@ const updateMovie = async(req , res) => {
             return res.status(response.code).json(errorResponseBody);
         }
         successResponseBody.data = response;
-        return res.status(STATUS.CREATED).json(successResponseBody);
+        return res.status(STATUS.OK).json(successResponseBody);
         
     }
     catch(err){
@@ -90,15 +89,14 @@ const updateMovie = async(req , res) => {
 const getMovies = async (req , res) =>{
     try{
         const response = await movieServices.fetchMovies(req.query);
-        if(response.err){
-            errorResponseBody = response.err;
-            return res.status(response.code).json(errorResponseBody)
-        }
         successResponseBody.data = response; 
-        return res.status(STATUS.CREATED).json(successResponseBody)
+        return res.status(STATUS.OK).json(successResponseBody)
     }
     catch(error){
-       console.log(error);
+        if(error.err){
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
        errorResponseBody.err = error;
        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
     }
