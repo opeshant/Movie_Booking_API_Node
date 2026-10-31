@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 const userService = require('../services/user.service');
-const {successResponseBody , errorresponseBody , errorResponseBody} = require('../utils/responsebody');
+const {successResponseBody , errorResponseBody} = require('../utils/responsebody');
 
 const jwt = require('jsonwebtoken');
 
@@ -15,13 +15,13 @@ const singUp = async (req , res ) => {
     catch(error){
         
        if(error.err){
-        errorresponseBody.err = error.err;
-        errorresponseBody.code = error.code;
-        return res.status(error.code).json(errorresponseBody);
+        errorResponseBody.err = error.err;
+        errorResponseBody.code = error.code;
+        return res.status(error.code).json(errorResponseBody);
        }
-       errorresponseBody.err = error.message;
-       errorresponseBody.code = 500;
-       return res.status(500).json(errorresponseBody);
+       errorResponseBody.err = error.message;
+       errorResponseBody.code = 500;
+       return res.status(500).json(errorResponseBody);
 }
 }
 
@@ -30,9 +30,9 @@ const signin = async(req , res) =>{
         const user = await userService.getUserByEmail(req.body.email);
         const isValidPassword = await user.isValidPassword(req.body.password);
         if(!isValidPassword){
-            errorresponseBody.err = "invalid password for the given email";
-            errorresponseBody.code = 401;
-            return res.status(401).json(errorresponseBody);
+            errorResponseBody.err = "invalid password for the given email";
+            errorResponseBody.code = 401;
+            return res.status(401).json(errorResponseBody);
         }
 
 
@@ -59,12 +59,12 @@ const signin = async(req , res) =>{
     }
     catch(error){
         if(error.err){
-            errorresponseBody.err = error.err;
-            return res.status(error.code).json(errorresponseBody);
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
         }
-        errorresponseBody.err = error.message;
-        errorresponseBody.code = 500;
-        return res.status(500).json(errorresponseBody)
+        errorResponseBody.err = error.message;
+        errorResponseBody.code = 500;
+        return res.status(500).json(errorResponseBody)
     }
 }
 
@@ -85,11 +85,11 @@ const resetPassword = async (req , res) =>{
     }
     catch(error){
         if(error.err){
-            errorresponseBody.err = error.err;
-            return res.status(error.code).json(errorresponseBody);
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
         }
-        errorresponseBody.err = error;
-       return res.status(500).json(errorresponseBody);
+        errorResponseBody.err = error;
+       return res.status(500).json(errorResponseBody);
     }
 }
 

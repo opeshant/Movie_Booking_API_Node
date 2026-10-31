@@ -1,6 +1,8 @@
 const theatre = require('../models/theatre.model');
 const Theatre = require('../models/theatre.model');
 const Movie = require('../models/movie.model');
+const {STATUS_CODES : STATUS} = require('../utils/constants')
+
 
 // params data -> object containing deatils of the theatre to be vreated 
 // returns -> object with the new theatre details 
@@ -17,7 +19,7 @@ const createTheatre = async(data) => {
             Object.keys(error.errors).forEach((key) => {
                 err[key] = error.errors[key].message;
             });
-            return {err : err , code : 422};
+            throw  {err : err , code : STATUS.UNPROCESSABEL_ENTITY};
         }
         console.log(error);
         throw error;

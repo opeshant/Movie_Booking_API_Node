@@ -1,13 +1,11 @@
 
-const {errorresponseBody } = require('../utils/responsebody');
+const {errorResponseBody } = require('../utils/responsebody');
 
 
 // params req -> HTTP request object
 // params res -> HTTP response object
 // params next -> next middleware function 
 // returns -> where the req is valid or not
-
-
 
 
 const validateTheatreCreateRequest = async(req , res , next) => {
@@ -39,27 +37,27 @@ const validateUpdateMoviesRequest = async(req , res , next) => {
      
     //validation of update parameters
     if(req.body.insert === undefined){
-        errorresponseBody.message = "The insert paramters is missing in the request";
-        return res.status(400).json(errorresponseBody);
+        errorResponseBody.message = "The insert paramters is missing in the request";
+        return res.status(400).json(errorResponseBody);
     }
 
     // validation of moviesIds are present
     if(!req.body.movieIds){
-        errorresponseBody.message = "No movies was present in the request";
-        return res.status(400).json(errorresponseBody);
+        errorResponseBody.message = "No movies was present in the request";
+        return res.status(400).json(errorResponseBody);
     }
 
     // validation if movieIds is empty or not
     if(!(req.body.movieIds instanceof Array)){
-        errorresponseBody.message ="expected arary fo movie Ids but found somehting else";
-        return res.status(400).json(errorresponseBody)
+        errorResponseBody.message ="expected arary fo movie Ids but found somehting else";
+        return res.status(400).json(errorResponseBody)
     }
 
     
     // vaildation id length of array is greater than 1
     if(req.body.movieIds.length == 0){
-        errorresponseBody.message = "No movies present in the array provided";
-        return res.status(400).json(errorresponseBody);
+        errorResponseBody.message = "No movies present in the array provided";
+        return res.status(400).json(errorResponseBody);
     }
 
     next();

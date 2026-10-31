@@ -1,6 +1,6 @@
 // this object to be used as template for building erros reponses
 
-const errorresponseBody = {
+const errorResponseBody = {
     err :{},
     data :{},
     message:"something went wrong",
@@ -18,6 +18,6 @@ const successResponseBody={
 
 module.exports ={
     successResponseBody,
-    errorresponseBody
+    errorResponseBody
 }
 
