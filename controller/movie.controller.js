@@ -15,20 +15,16 @@ const createMovie = async (req , res) =>{
 
       try { 
         const response = await movieServices.createMovie(req.body);
-        if(response.err){
-            errorResponseBody.err = response.err;
-           
-            errorResponseBody.message = "validation failed on few parameters on req body"
-            return res.status(response.code).json(errorResponseBody);
-        }
         successResponseBody.data = response;
         successResponseBody.message = "successfully created the moovie";
-        return res.status(201).json(successResponseBody)
-
+        return res.status(STATUS.CREATED).json(successResponseBody)
       }
-      catch (err){
-
-        console.log(err.name);
+      catch (error){
+        if(error.err){
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
+        errorResponseBody.err = error;
         return res.status(STATUS.INTERNAL_SERVER_ERROR).json();
 
       }
@@ -45,7 +41,7 @@ const deleteMovie = async (req , res) =>{
         
         successResponseBody.data = response;
         successResponseBody.message = "successfully deleted the movie";
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
     }
     catch(err){
         console.log(err);
@@ -64,7 +60,7 @@ const getMovie = async (req , res) =>{
 
         successResponseBody.data = response;
 
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
 
     }
     catch(err){
@@ -83,7 +79,7 @@ const updateMovie = async(req , res) => {
             return res.status(response.code).json(errorResponseBody);
         }
         successResponseBody.data = response;
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
         
     }
     catch(err){
@@ -101,7 +97,7 @@ const getMovies = async (req , res) =>{
             return res.status(response.code).json(errorResponseBody)
         }
         successResponseBody.data = response; 
-        return res.status(200).json(successResponseBody)
+        return res.status(STATUS.CREATED).json(successResponseBody)
     }
     catch(error){
        console.log(error);

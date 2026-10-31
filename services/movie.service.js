@@ -1,6 +1,6 @@
 
 const Movie = require('../models/movie.model');
-
+const {STATUS_CODES : STATUS} = require('../utils/constants');
 
 // params data -> object containg data of the new movie to be created
 // returns -> returns the new movie created
@@ -24,7 +24,7 @@ const createMovie = async(data) => {
 
             console.log(err);
 
-            return {err : err, code : 422};
+            throw {err : err, code : STATUS.UNPROCESSABEL_ENTITY};
         }
         else {
             throw error;
@@ -124,7 +124,7 @@ const updateMovie = async(id, data) => {
 
             console.log(err);
 
-            return {err : err, code : 422};
+            return {err : err, code : STATUS.UNPROCESSABEL_ENTITY};
         }
         else {
             throw error;
