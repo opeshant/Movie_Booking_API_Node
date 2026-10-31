@@ -2,6 +2,7 @@
 const movieController = require('../controller/movie.controller');
 // const movie = require('../models/movie.model');
 const movieMiddlewares = require("../middlewares/movie.middlewares")
+const authMideelwares = require('../middlewares/auth.middlewares');
 
 
 const routes = (app) =>{
@@ -9,6 +10,8 @@ const routes = (app) =>{
 
     //CREATE
     app.post('/mba/api/v1/movies' , 
+       authMideelwares.isAuthenticated,
+       authMideelwares.isAdminOrClient,
        movieMiddlewares.validateMovieCreateRequest,
        movieController.createMovie
     );
