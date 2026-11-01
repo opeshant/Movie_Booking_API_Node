@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema({
         ref : 'User',
 
     },
-    timing :{
+    timings :{
         type : String,
         required : true,
 
