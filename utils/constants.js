@@ -17,6 +17,8 @@ const STATUS_CODES = {
     UNAUTHORIZED : 401 , 
     NOT_FOUND : 404,
     BAD_REQUEST : 400,
+    FORBBIDEN : 403,
+    UNPROCESSABEL_ENTITY : 422 
 }
 
 module.exports ={

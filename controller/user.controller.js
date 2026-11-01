@@ -1,5 +1,5 @@
 const userService = require('../services/user.service');
-const {errorresponseBody , successResponseBody} = require('../utils/responsebody');
+const {errorResponseBody , successResponseBody} = require('../utils/responsebody');
 const {STATUS_CODES: STATUS} = require('../utils/constants');
 
 
@@ -14,11 +14,10 @@ const update = async(req , res) => {
     catch(error){
 
         if(error.err){
-            errorresponseBody.err = error.err;
-            return res.status(error.code).json(errorresponseBody);
-        }
-        errorresponseBody.err = error;
-        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorresponseBody);
+        errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }errorResponseBody.err = error;
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBod);
     }
 }
 

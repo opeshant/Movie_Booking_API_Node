@@ -1,6 +1,6 @@
 
 const Movie = require('../models/movie.model');
-
+const {STATUS_CODES : STATUS} = require('../utils/constants');
 
 // params data -> object containg data of the new movie to be created
 // returns -> returns the new movie created
@@ -24,7 +24,7 @@ const createMovie = async(data) => {
 
             console.log(err);
 
-            return {err : err, code : 422};
+            throw {err : err, code : STATUS.UNPROCESSABEL_ENTITY};
         }
         else {
             throw error;
@@ -43,9 +43,9 @@ const deleteMovie = async(id) => {
     try{
         const response = await Movie.findByIdAndDelete(id);
         if(!response){
-            return {
+            throw {
                 err : "No movie record fpund for the id provided",
-                code : 404
+                code : STATUS.NOT_FOUND
             }
         }
          return response;
@@ -67,12 +67,10 @@ const getMovieById = async(id) => {
 
     const movie = await Movie.findById(id);
 
-    console.log(movie);
-
     if(!movie){
-        return {
+        throw {
             err : "No movie found for the corresponding id provided",
-            code : 404
+            code : STATUS.NOT_FOUND
         };
     }
 
@@ -87,46 +85,25 @@ const getMovieById = async(id) => {
 // params data -> actual data which is to be updated in the db
 // returns -> returns the new updated movie deatils
 
-const updateMovie = async(id, data) => {
-
+const updateMovie = async (id, data) => {
     try {
-
-        const movie = await Movie.findByIdAndUpdate(
-            id,
-            data,
-            {
-                new : true,
-                runValidators : true
-            }
-        );
-
+        const movie = await Movie.findByIdAndUpdate(id, data, {new: true, runValidators: true});
         if(!movie){
-            return {
-                err : "No movie found for the corresponding id provided",
-                code : 404
-            };
+            throw{
+                err :"no movie found for the given id",
+                code :STATUS.NOT_FOUND
+            }
         }
-
         return movie;
-
-    }
-    catch(error){
-
-        if(error.name == 'ValidationError'){
-
+    } catch (error) {
+        if(error.name == 'ValidationError') {
             let err = {};
-
-            Object.keys(error.errors).forEach((key)=>{
-
+            Object.keys(error.errors).forEach((key) => {
                 err[key] = error.errors[key].message;
-
             });
-
             console.log(err);
-
-            return {err : err, code : 422};
-        }
-        else {
+            throw {err: err, code : STATUS.UNPROCESSABEL_ENTITY};
+        } else {
             throw error;
         }
     }
@@ -144,9 +121,9 @@ const fetchMovies = async (filter)=>{
     }
     let movies = await Movie.find(query);
     if(!movies){
-        return {
+        throw {
             err:"not abel to find query movies",
-            code : 404 
+            code : STATUS.NOT_FOUND 
         }
     }
     return movies;

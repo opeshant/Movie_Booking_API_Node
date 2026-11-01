@@ -1,8 +1,10 @@
 const User = require('../models/user.model');
 const userService = require('../services/user.service');
-const {successResponseBody , errorresponseBody , errorResponseBody} = require('../utils/responsebody');
-
+const {successResponseBody , errorResponseBody} = require('../utils/responsebody');
+const {STATUS_CODES : STATUS} = require('../utils/constants');
 const jwt = require('jsonwebtoken');
+
+
 
 
 const singUp = async (req , res ) => {
@@ -10,18 +12,18 @@ const singUp = async (req , res ) => {
         const response = await userService.creatUser(req.body);
         successResponseBody.data = response;
         successResponseBody.message = "successfully registred a user";
-        return res.status(201).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
     }
     catch(error){
         
        if(error.err){
-        errorresponseBody.err = error.err;
-        errorresponseBody.code = error.code;
-        return res.status(error.code).json(errorresponseBody);
+        errorResponseBody.err = error.err;
+        errorResponseBody.code = error.code;
+        return res.status(error.code).json(errorResponseBody);
        }
-       errorresponseBody.err = error.message;
-       errorresponseBody.code = 500;
-       return res.status(500).json(errorresponseBody);
+       errorResponseBody.err = error.message;
+       errorResponseBody.code = STATUS.INTERNAL_SERVER_ERROR;
+       return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
 }
 }
 
@@ -30,9 +32,9 @@ const signin = async(req , res) =>{
         const user = await userService.getUserByEmail(req.body.email);
         const isValidPassword = await user.isValidPassword(req.body.password);
         if(!isValidPassword){
-            errorresponseBody.err = "invalid password for the given email";
-            errorresponseBody.code = 401;
-            return res.status(401).json(errorresponseBody);
+            errorResponseBody.err = "invalid password for the given email";
+            errorResponseBody.code = STATUS.UNAUTHORIZED;
+            return res.status(STATUS.UNAUTHORIZED).json(errorResponseBody);
         }
 
 
@@ -55,16 +57,16 @@ const signin = async(req , res) =>{
             status : user.userStatus,
             token : token
         }
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
     }
     catch(error){
         if(error.err){
-            errorresponseBody.err = error.err;
-            return res.status(error.code).json(errorresponseBody);
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
         }
-        errorresponseBody.err = error.message;
-        errorresponseBody.code = 500;
-        return res.status(500).json(errorresponseBody)
+        errorResponseBody.err = error.message;
+        errorResponseBody.code = STATUS.INTERNAL_SERVER_ERROR;
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody)
     }
 }
 
@@ -81,15 +83,15 @@ const resetPassword = async (req , res) =>{
 
         successResponseBody.data = user;
         successResponseBody.message ="successfully updated the password for the given request";
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.CREATED).json(successResponseBody);
     }
     catch(error){
         if(error.err){
-            errorresponseBody.err = error.err;
-            return res.status(error.code).json(errorresponseBody);
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
         }
-        errorresponseBody.err = error;
-       return res.status(500).json(errorresponseBody);
+        errorResponseBody.err = error;
+       return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }
 }
 

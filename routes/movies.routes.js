@@ -2,6 +2,7 @@
 const movieController = require('../controller/movie.controller');
 // const movie = require('../models/movie.model');
 const movieMiddlewares = require("../middlewares/movie.middlewares")
+const authMideelwares = require('../middlewares/auth.middlewares');
 
 
 const routes = (app) =>{
@@ -9,6 +10,8 @@ const routes = (app) =>{
 
     //CREATE
     app.post('/mba/api/v1/movies' , 
+       authMideelwares.isAuthenticated,
+       authMideelwares.isAdminOrClient,
        movieMiddlewares.validateMovieCreateRequest,
        movieController.createMovie
     );
@@ -16,6 +19,8 @@ const routes = (app) =>{
     //DELETE
     app.delete(
         '/mba/api/v1/movies/:id',
+        authMideelwares.isAuthenticated,
+        authMideelwares.isAdminOrClient,
         movieController.deleteMovie
     );
 
@@ -29,12 +34,16 @@ const routes = (app) =>{
     //UPDATE
     app.put(
         '/mba/api/v1/movies/:id',
+        authMideelwares.isAuthenticated,
+        authMideelwares.isAdminOrClient,
         movieController.updateMovie
     )
 
     //UPDATE
     app.patch(
         '/mba/api/v1/movies/:id',
+        authMideelwares.isAuthenticated,
+        authMideelwares.isAdminOrClient,
         movieController.updateMovie
     )
 
