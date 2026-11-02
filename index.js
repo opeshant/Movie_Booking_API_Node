@@ -10,7 +10,8 @@ const TheatreRoutes = require('./routes/theatre.route');
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.routes');
 const bookingRoutes = require('./routes/booking.route');
- 
+const showRoutes = require('./routes/show.routes');
+
 
 env.config();
 const app = express();
@@ -42,6 +43,7 @@ TheatreRoutes(app); // invoking theatre routes
 authRoutes(app); // invoking auth routes 
 userRoutes(app); // invoking user routes
 bookingRoutes(app); // invoking booking routes
+showRoutes(app); // invoking show routes
 
 
 app.listen (process.env.PORT ,async()=>{
