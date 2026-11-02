@@ -9,6 +9,10 @@ const MovieRoutes = require('./routes/movies.routes');
 const TheatreRoutes = require('./routes/theatre.route');
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.routes');
+const bookingRoutes = require('./routes/booking.route');
+const showRoutes = require('./routes/show.routes');
+const paymentRoutes = require('./routes/payment.routes');
+
 
 env.config();
 const app = express();
@@ -28,6 +32,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(express.json());
+
 mongoose.set('debug' , true);
 
 
@@ -38,25 +43,9 @@ MovieRoutes(app); // invoking movie routes
 TheatreRoutes(app); // invoking theatre routes
 authRoutes(app); // invoking auth routes 
 userRoutes(app); // invoking user routes
-
-
-
-
-//*************************************************/
-// app.get('/home' , (req , res) =>{
-
-//     // console.log("hetting /home");
-
-//     return res.json({
-//         success : true,
-//         number : 108, 
-//         message : "this is fetched home"
-//     })
-
-
-// })
-
-//*************************************************/
+bookingRoutes(app); // invoking booking routes
+showRoutes(app); // invoking show routes
+paymentRoutes(app); // invoking payment routes 
 
 
 
@@ -67,7 +56,7 @@ app.listen (process.env.PORT ,async()=>{
         
     await mongoose.connect(process.env.DB_URL)
     // connects to the mongo server
-    console.log("successsfully connected to mongomm")
+    console.log("successsfully connected to mongo")
     }
     catch(err){
         console.log("not abel to connect mongo")

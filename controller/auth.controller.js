@@ -43,7 +43,7 @@ const signin = async(req , res) =>{
         email : user.email 
         },
         process.env.AUTH_KEY,
-        {expiresIn : '1h'}
+        {expiresIn : '7d'}
         );
 
 
