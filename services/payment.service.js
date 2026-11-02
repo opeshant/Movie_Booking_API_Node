@@ -4,7 +4,15 @@ const {STATUS_CODES : STATUS, BOOKING_STATUS, PAYMENT_STATUS} = require('../util
 
 const creatPayment = async(data) =>{
       try{
+        
         const booking = await Booking.findById(data.bookingId);
+
+        if(booking.status == BOOKING_STATUS.successful){
+            throw{
+                err : "booking already done cannot make a new payment against it",
+                code : STATUS.FORBBIDEN
+            }
+        }
         if(!booking){
             throw{
                 err : "No booking found",
@@ -43,9 +51,30 @@ const creatPayment = async(data) =>{
       catch(error){ 
         throw error;
       }
+};
+
+
+const getPaymentById = async(id) =>{
+    try{
+        const response = await Payment.findById(id).populate('bookingId');
+        if(!response){
+            throw{
+                err : "no payment found",
+                code : STATUS.NOT_FOUND
+            }
+        }
+        return response;
+    }
+    catch(error){
+        throw error;
+    }
 }
 
+
+
+
 module.exports ={
-    creatPayment
+    creatPayment,
+    getPaymentById
 
 }
