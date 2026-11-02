@@ -11,6 +11,7 @@ const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.routes');
 const bookingRoutes = require('./routes/booking.route');
 const showRoutes = require('./routes/show.routes');
+const paymentRoutes = require('./routes/payment.routes');
 
 
 env.config();
@@ -44,6 +45,8 @@ authRoutes(app); // invoking auth routes
 userRoutes(app); // invoking user routes
 bookingRoutes(app); // invoking booking routes
 showRoutes(app); // invoking show routes
+paymentRoutes(app); // invoking payment routes 
+
 
 
 app.listen (process.env.PORT ,async()=>{

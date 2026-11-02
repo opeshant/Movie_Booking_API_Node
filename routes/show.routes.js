@@ -25,7 +25,7 @@ const routes = (app) =>{
     );
 
     app.patch(
-        'mba/api/v1/show/:id',
+        '/mba/api/v1/shows/:id',
         authMiddleware.isAuthenticated,
         authMiddleware.isAdminOrClient,
         showMiddleware.validateShowUpdateRequest,
