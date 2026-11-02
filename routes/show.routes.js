@@ -10,12 +10,26 @@ const routes = (app) =>{
         authMiddleware.isAdminOrClient,
         showMiddleware.validateCreateShowRequest,
         showController.create
-    )
+    );
 
     app.get(
         '/mba/api/v1/shows',
         showController.getShows
-    )
+    );
+
+    app.delete(
+        '/mba/api/v1/show',
+        authMiddleware.isAuthenticated,
+        authMiddleware.isAdminOrClient,
+        showController.destroy
+    );
+
+    app.patch(
+        'mba/api/v1/show/:id',
+        authMiddleware.isAuthenticated,
+        authMiddleware.isAdminOrClient,
+        showController.update
+    );
 }
 
 
