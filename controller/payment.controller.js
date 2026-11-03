@@ -2,7 +2,7 @@ const { STATES } = require('mongoose');
 const paymentService = require('../services/payment.service');
 const {BOOKING_STATUS , STATUS_CODES : STATUS} = require('../utils/constants');
 const {errorResponseBody , successResponseBody} = require('../utils/responsebody');
-
+const {USER_ROLE} = require('../utils/constants');
 
 const create = async (req , res) =>{
 
@@ -49,8 +49,23 @@ const getPaymentDetailsById = async(req , res)=>{
     }
 }
 
+const getAllPayments = async(req , res)=>{
+    try{
+        const response = await paymentService.getAllPayments(req.user);
+        successResponseBody.data = response;
+        successResponseBody.message = "successfully feteched all the infomrmation";
+        return res.status(STATUS.OK).json(successResponseBody);
+    }
+    catch(error){
+        console.log("getAllPayments error : " , error);
+        errorResponseBody.err = error;
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
+    }
+}
+
 module.exports ={
     create,
-    getPaymentDetailsById
+    getPaymentDetailsById,
+    getAllPayments,
 
 }
