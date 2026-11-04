@@ -2,11 +2,17 @@ const Payment = require('../models/payment.mdel');
 const Booking = require('../models/booking.model');
 const {STATUS_CODES : STATUS, BOOKING_STATUS, PAYMENT_STATUS , USER_ROLE} = require('../utils/constants');
 const User = require('../models/user.model');
+const Show = require('../utils/constants');
 
 const creatPayment = async(data) =>{
       try{
         
         const booking = await Booking.findById(data.bookingId);
+        const show = await Show.findOne({
+            movieId : booking.movieId,
+            theatreId : booking.theatreId,
+            timings : booking.timings,
+        })
 
         if(booking.status == BOOKING_STATUS.successful){
             throw{
@@ -44,6 +50,8 @@ const creatPayment = async(data) =>{
         }
         payment.status = PAYMENT_STATUS.success;
         booking.status = BOOKING_STATUS.successful;
+        show.noOfSeats -= booking.noOfSeats;
+        
         await booking.save();
         await payment.save();
 
